@@ -1,0 +1,39 @@
+Travelling Salesman Problem (TSP): 
+
+Given a set of cities and the distance between every pair of cities, 
+the problem is to find the shortest possible route that visits every city exactly once and returns to the starting point.
+
+#include<iostream>
+#include<vector>
+#include<climits>
+#include<algorithm>
+using namespace std;
+int city=4;
+vector<vector<int>>dp(1<<city,vector<int>(city,-1));
+
+int tsp(vector<vector<int>>&dist,int mask, int pos){
+    if(mask==(1<<dist.size())-1){
+        return dist[pos][0];
+    }
+    
+    if(dp[mask][pos]!=-1){
+        return dp[mask][pos];
+    }
+    
+    int ans=INT_MAX;
+    for(int currentCity=0;currentCity<city;currentCity++){
+        if((mask & (1<<currentCity))==0){
+            int new_mask=mask | (1<<currentCity);
+            ans=min(ans,dist[pos][currentCity]+tsp(dist,new_mask,currentCity));
+        }
+    }
+    return dp[mask][pos]=ans;
+}
+
+int main(){
+    //int city=4;
+    
+    vector<vector<int>>dist={{0,16,11,6},{8,0,13,16},{4,7,0,9},{5,12,2,0}};
+    cout<<"Minimum cost required= "<<tsp(dist,1,0);
+    return 0;
+}
