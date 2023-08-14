@@ -1,0 +1,33 @@
+0/1 Knapsack Problem-->
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int knapSack(vector<int>&weight,vector<int>&profit,int n, int c){
+    vector<vector<int>>dp(n+1,vector<int>(c+1,0));
+    for(int i=1;i<=n;i++){
+        for(int w=1;w<=c;w++){
+            if(weight[i-1]>w){
+                dp[i][w]=dp[i-1][w];
+            }
+            
+            else{
+                dp[i][w]=max(dp[i-1][w],profit[i-1]+dp[i-1][w-weight[i-1]]);
+            }
+        }
+    }
+    
+    return dp[n][c];
+}
+
+int main(){
+    int n=3,c;
+    vector<int>weight={4,5,6};
+    vector<int>profit={1,2,3};
+    cout<<"Enter total capacity: ";
+    cin>>c;
+    cout<<"Max profit obtained: "<<knapSack(weight,profit,n,c);
+    return 0;
+}
