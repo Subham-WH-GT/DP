@@ -1,0 +1,48 @@
+#Maximum length Of Pair chain
+
+
+ **Recurssion/Memo**
+int dp[1001][1001];
+int n;
+    int lis(vector<vector<int>>&nums, int p, int c){
+        if(c==n) return 0;
+        if(p!=-1 and dp[p][c]!=-1){
+            return dp[p][c];
+        }
+        int taken=0;
+        if(p==-1 || nums[c][0]> nums[p][1]){
+            taken=1+lis(nums,c,c+1);
+        }
+
+        int not_taken=lis(nums,p,c+1);
+        if(p!=-1){
+            dp[p][c]=max(taken,not_taken);
+        }
+        return max(taken,not_taken);
+    }
+    int findLongestChain(vector<vector<int>>& pairs) {
+        memset(dp,-1,sizeof(dp));
+        n=pairs.size();
+        sort(pairs.begin(),pairs.end());
+        return lis(pairs,-1,0);
+    }
+
+
+       **Bottom_Up**
+
+
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int n=pairs.size();
+        sort(pairs.begin(),pairs.end());
+        vector<int>dp(n,1);
+        int maxL=1;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(pairs[j][1]<pairs[i][0]){
+                    dp[i]=max(dp[i],dp[j]+1);
+                    maxL=max(maxL,dp[i]);
+                }
+            }
+        }
+        return maxL;
+    }
