@@ -1,0 +1,26 @@
+Grinding Geek 
+
+int dp[1001][1001];
+    int solve(vector<int> &cost,int i,int total,int n){
+        if(i==n or total<=0) return 0;
+        if(dp[i][total] != -1) return dp[i][total];
+        int skip=solve(cost,i+1,total,n);
+        int taken=0;
+        if(total>=cost[i]){
+            taken=1+solve(cost,i+1,total-cost[i]+(cost[i]*9/10),n); 
+        }
+       
+        
+        
+        return dp[i][total]= max(taken,skip);
+    }
+    
+    int max_courses(int n, int total, vector<int> &cost)
+    {
+        //Code Here
+       // n=cost.size();
+       //N=n;
+       memset(dp,-1,sizeof(dp));
+        return solve(cost,0,total,n);
+        
+    }
