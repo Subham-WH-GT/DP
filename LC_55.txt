@@ -1,0 +1,45 @@
+##Jump Game. . .
+
+  **Recc+Memo**   
+
+ int n;
+    int dp[10001];
+    bool solve(vector<int>& nums, int i){
+        if(i==n-1) return true;
+
+        if(i>=n) return false;
+
+        if(dp[i] != -1) return dp[i];
+
+        for(int j=1;j<=nums[i];j++){
+            if(solve(nums,i+j))  return dp[i]=true;
+        }
+
+         return dp[i]=false;
+
+
+    }
+
+    bool canJump(vector<int>& nums) {
+        n=nums.size();
+        memset(dp,-1,sizeof(dp));
+        return solve(nums,0);
+    }
+
+
+	**Bottom_Up**
+
+    bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>dp(n,false);
+        dp[0]=true;
+        for(int i=1;i<n;i++){
+            for(int j=i-1;j>=0;j--){
+                if(dp[j]==true and j+nums[j]>=i){
+                    dp[i]=true;
+                    break;
+                } 
+            }
+        }
+        return dp[n-1];
+    }
