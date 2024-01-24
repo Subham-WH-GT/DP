@@ -31,3 +31,32 @@
       memset(dp,-1,sizeof(dp));
       return solve(0,days,costs);  
     }
+
+
+
+   ** Bottom_Up**
+
+
+	    int mincostTickets(vector<int>& days, vector<int>& costs) {
+     unordered_set<int>s(begin(days),end(days));
+     int ld=days.back();
+     vector<int>dp(ld+1,0);
+    dp[0]=0;
+
+    for(int i=1;i<=ld;i++){
+        if(s.find(i)==s.end()){
+           dp[i]=dp[i-1];
+           continue; 
+        }
+
+        dp[i]=INT_MAX;
+        int type1=costs[0]+dp[max(i-1,0)];
+        int type2=costs[1]+dp[max(i-7,0)];
+        int type3=costs[2]+dp[max(i-30,0)];
+
+        dp[i]=min({type1,type2,type3});
+    }
+
+    return dp[ld];
+
+    }
