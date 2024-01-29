@@ -1,0 +1,30 @@
+# Count digit groupings of a number . . . 
+
+
+** Bottom_Up**
+
+	int n;
+	int dp[101][1000];
+	
+	int solve(int i, int p, string &s){
+	    if(i>=n) return 1;
+	    if(dp[i][p] != -1) return dp[i][p];
+	    int cs=0;
+	    int result=0;
+	    for(int j=i;j<n;j++){
+	        cs+=(s[j]-'0');
+	        
+	        if(cs>=p){
+	            result+=solve(j+1,cs,s);
+	        }
+	    }
+	    
+	    return dp[i][p]= result;
+	}
+	
+	int TotalCount(string s){
+	    // Code here
+	    n=s.length();
+	    memset(dp,-1,sizeof(dp));
+	    return solve(0,0,s);
+	}
