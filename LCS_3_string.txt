@@ -1,0 +1,28 @@
+        
+        int N1,N2,N3;
+        int dp[21][21][21];
+        
+        int solve(string A, string B, string C,int i, int j, int k){
+            if(i>=N1 || j>=N2 || k>=N3) return 0;
+            
+            if(dp[i][j][k] != -1) return dp[i][j][k];
+            int ans=0;
+            if(A[i]==B[j] and A[i]==C[k]){
+                return dp[i][j][k]= 1+solve(A,B,C,i+1,j+1,k+1);
+            }
+            
+            else{
+                return dp[i][j][k]= max({solve(A,B,C,i+1,j,k),solve(A,B,C,i,j+1,k), solve(A,B,C,i,j,k+1)});
+            }
+            
+        }
+        
+        int LCSof3 (string A, string B, string C, int n1, int n2, int n3)
+        {
+            // your code here
+            N1=n1;
+            N2=n2;
+            N3=n3;
+            memset(dp,-1,sizeof(dp));
+            return solve(A,B,C,0,0,0);
+        }
