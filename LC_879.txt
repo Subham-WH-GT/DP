@@ -1,0 +1,38 @@
+# Profitable Scheme
+
+ ** Recc+Memo**
+
+    
+    int N;
+    int MOD=1e9+7;
+    
+    int dp[101][101][101];
+    
+    int solve(int i, int paisa, int people,int mp, vector<int>& group, vector<int>& profit ){
+        
+        if(people>N) return 0;
+        
+        if(i>=group.size()){
+
+            if(paisa>=mp)  return 1;
+            
+            return 0;
+        }
+        
+        if(dp[i][paisa][people]!=-1) return dp[i][paisa][people];
+        
+        long long not_taken=solve(i+1,paisa,people,mp,group,profit)%MOD;
+        long long taken=solve(i+1, min(paisa+profit[i],mp),people+group[i],mp,group,profit )%MOD;
+        
+        return dp[i][paisa][people]=(taken%MOD+not_taken%MOD)%MOD;
+    }
+    
+    
+    int profitableSchemes(int n, int mP, vector<int>& group, vector<int>& profit) {
+        
+        
+        N=n;
+        memset(dp,-1,sizeof(dp));
+        return solve(0,0,0,mP,group,profit);
+        
+    }
