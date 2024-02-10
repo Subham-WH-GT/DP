@@ -1,0 +1,45 @@
+#  Number of paths in a matrix with k coins
+
+
+** Recc+Memo**
+
+
+    int N;
+    int K;
+    int dp[101][101][101];
+    
+    
+    long long solve(int i, int j, vector<vector<int>> &arr, int sum){
+        
+        
+        if(i>=N || j>=N) return 0;
+        
+        sum+=arr[i][j];
+        
+        if( (i==N-1 and j==N-1) and (sum==K) ) return 1;
+        
+        if(sum>K) return 0;
+        
+        if(dp[i][j][sum] != -1) return dp[i][j][sum];
+        
+        long long down=0,right=0;
+        
+        if(j+1 < N){
+          right=solve(i,j+1,arr,sum);  
+        }
+        
+        if(i+1 <N){
+         down=solve(i+1,j,arr,sum);   
+        }
+        
+       return dp[i][j][sum]=right+down; 
+    }
+    
+    long long numberOfPath(int n, int k, vector<vector<int>> &arr){
+        
+        // Code Here
+        N=n;
+        K=k;
+        memset(dp,-1,sizeof(dp));
+        return solve(0,0,arr,0);
+    }
